@@ -1,7 +1,7 @@
 import GLOOP.*;
 public class Sphere {
     GLKugel sphere;
-    GLVektor vPos, vOffPos;
+    GLVektor vPos, vOffPos, vColor;
     Floor floor;
     Catcher catcher;
     Sphere[] spheres;
@@ -22,8 +22,9 @@ public class Sphere {
         radius = pRadius;
         vPos = new GLVektor(Math.random()*(floor.getWidth() - 2*pRadius) - (floor.getWidth() - 2*pRadius)/2, 0 + pRadius, Math.random()*(floor.getLength() - 2*pRadius) - (floor.getLength()- 2*pRadius)/2);
         vOffPos = new GLVektor(100000, 100000, 100000);
+        vColor = new GLVektor(Math.random(), Math.random(), Math.random());
         sphere = new GLKugel(vPos, pRadius);
-        sphere.setzeFarbe(Math.random(), Math.random(), Math.random());
+        sphere.setzeFarbe(vColor.x, vColor.y, vColor.z);
        do{
            this.checkForCollisionWithSpheresAtSpawn();
            if(this.checkForCollisionWithHole()){
@@ -35,17 +36,20 @@ public class Sphere {
     }
     public void move(){
         if(this.getPos() != vOffPos){
+            sphere.setzeSelbstleuchten(0, 0, 0);
+            this.checkForCollisionWithSpheresDuringGame();
             if(this.getPos().x + radius >= floor.getRightXBorder() || this.getPos().x - radius <= floor.getLeftXBorder()){
                 speedX = -speedX;
+                sphere.setzeSelbstleuchten(vColor.x, vColor.y, vColor.z);
             }
             if(this.getPos().z + radius >= floor.getFrontZBorder() || this.getPos().z - radius <= floor.getBackZBorder()){
                 speedZ = -speedZ;
+                sphere.setzeSelbstleuchten(vColor.x, vColor.y, vColor.z);
             }
             vPos.x += speedX;
             vPos.z += speedZ;
 
             sphere.drehe(speedX, 0, speedZ);
-            this.checkForCollisionWithSpheresDuringGame();
             this.updateSpherePos();
         }
         this.gotCaught();
@@ -92,6 +96,7 @@ public class Sphere {
                         this.speedZ = spheres[i].getSpeedZ();
                         spheres[i].setSpeedX(tempSpeedX);
                         spheres[i].setSpeedZ(tempSpeedZ);
+                        sphere.setzeSelbstleuchten(vColor.x, vColor.y, vColor.z);
 
                     }
                 }

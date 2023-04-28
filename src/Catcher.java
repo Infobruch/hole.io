@@ -11,9 +11,9 @@ public class Catcher {
         radius = pRadius;
         vPos = new GLVektor(pX, 0, pZ);
         vResetPos = new GLVektor(pX, 0, pZ);
-        catcher = new GLZylinder(vPos, radius, 0.5);
+        catcher = new GLZylinder(vPos, radius, 20);
         catcher.drehe(90, 0, 0);
-        catcher.setzeFarbe(0, 0, 0);
+        catcher.setzeFarbe(0, 1, 0);
     }
 
     public void moveRight(){

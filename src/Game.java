@@ -14,12 +14,12 @@ public class Game {
 
     public Game(){
        floor = new Floor(0, 0, FloorLength, FloorWidth);
-       catcher = new Catcher(0, 0, floor, 1, 100);
-       camera = new GLKamera(1440, 1440);
+       catcher = new Catcher(0, 0, floor, 1, 50);
+       camera = new GLKamera(1080, 1080);
        if(FloorWidth> FloorLength){
-           camera.setzePosition(0, FloorWidth*1, 1);
+           camera.setzePosition(0, FloorWidth*1, 1000);
          }else{
-           camera.setzePosition(0, FloorLength*1, 1);
+           camera.setzePosition(0, FloorLength*1, 1000);
          }
        keyboard = new GLTastatur();
        light = new GLLicht();
