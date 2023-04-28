@@ -44,6 +44,7 @@ public class Sphere {
             vPos.z += speedZ;
 
             sphere.drehe(speedX, 0, speedZ);
+            this.checkForCollisionWithSpheresDuringGame();
             this.updateSpherePos();
         }
         this.gotCaught();
@@ -77,6 +78,23 @@ public class Sphere {
             System.out.println("Error: " + e);
         }
     }
+    public void checkForCollisionWithSpheresDuringGame() throws NullPointerException {
+        try {
+            for (int i = 0; i < spheres.length; i++) {
+                if (i != index) {
+                    double d = Math.sqrt(Math.pow( this.getPos().x- spheres[i].getPos().x, 2 ) + Math.pow( this.getPos().y- spheres[i].getPos().y, 2) + Math.pow( this.getPos().z- spheres[i].getPos().z, 2));
+                    if (d < (spheres[i].getRadius() + 2* this.getRadius())) {
+                        System.out.println(d + " < " + (spheres[i].getRadius() + 2 * this.getRadius()));
+                        this.speedX = -this.speedX;
+                        this.speedZ = -this.speedZ;
+                    }
+                }
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Error: " + e);
+        }
+    }
+
     public boolean checkForCollisionWithHole(){
         double d = Math.sqrt(Math.pow( this.getPos().x- catcher.getPos().x, 2 ) + Math.pow( this.getPos().y- catcher.getPos().y, 2) + Math.pow( this.getPos().z- catcher.getPos().z, 2));
         if(d < (catcher.getRadius() + this.getRadius())){
