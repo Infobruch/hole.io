@@ -14,7 +14,7 @@ public class Game {
 
     public Game(){
        floor = new Floor(0, 0, FloorLength, FloorWidth);
-       catcher = new Catcher(0, 0, floor, 1, 20);
+       catcher = new Catcher(0, 0, floor, 1, 100);
        camera = new GLKamera(1440, 1440);
        if(FloorWidth> FloorLength){
            camera.setzePosition(0, FloorWidth*1, 1);
@@ -29,10 +29,10 @@ public class Game {
               spheres[i] = new Sphere(spheres , i , catcher, floor, 0.5, 5);
          }
         scoreboard = new UI();
-        scoreboard.buildScoreBoard(floor.getPos().x, 20, floor.getPos().z - 30, 100, 100, "src/img/invisible.png", 50);
+        scoreboard.buildScoreBoard(floor.getPos().x, 20, floor.getBackZBorder() - 20, 100, 100, "src/img/invisible.png", 50);
     }
     public void run(){
-        while(!keyboard.esc()){
+        while(!maxScoreReached() && !keyboard.esc()){
             this.checkForMovementInput();
             for(int i = 0; i < spheres.length; i++){
                 spheres[i].move();
@@ -61,5 +61,8 @@ public class Game {
             catcher.moveDown();
         }
         catcher.updateCatcherPos();
+    }
+    public boolean maxScoreReached(){
+        return score == spheres.length;
     }
 }
