@@ -24,7 +24,7 @@ public class Game {
        keyboard = new GLTastatur();
        light = new GLLicht();
        sky = new GLHimmel("src/img/sky.png");
-       spheres = new Sphere[500];
+       spheres = new Sphere[200];
          for(int i = 0; i < spheres.length; i++){
               spheres[i] = new Sphere(spheres , i , catcher, floor, 0.5, 5);
          }

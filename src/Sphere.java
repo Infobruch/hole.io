@@ -9,6 +9,7 @@ public class Sphere {
     private double radius;
     private int sphereCollisionCounter;
     private int score;
+    private double tempSpeedX, tempSpeedZ;
 
     private double speedX, speedZ;
     public Sphere(Sphere[] pSpheres, int pIndex, Catcher pCatcher, Floor pFloor, double pMaxSpeed, double pRadius){
@@ -85,8 +86,13 @@ public class Sphere {
                     double d = Math.sqrt(Math.pow( this.getPos().x- spheres[i].getPos().x, 2 ) + Math.pow( this.getPos().y- spheres[i].getPos().y, 2) + Math.pow( this.getPos().z- spheres[i].getPos().z, 2));
                     if (d < (spheres[i].getRadius() + 2* this.getRadius())) {
                         System.out.println(d + " < " + (spheres[i].getRadius() + 2 * this.getRadius()));
-                        this.speedX = -this.speedX;
-                        this.speedZ = -this.speedZ;
+                        tempSpeedX = speedX;
+                        tempSpeedZ = speedZ;
+                        this.speedX = spheres[i].getSpeedX();
+                        this.speedZ = spheres[i].getSpeedZ();
+                        spheres[i].setSpeedX(tempSpeedX);
+                        spheres[i].setSpeedZ(tempSpeedZ);
+
                     }
                 }
             }
@@ -125,5 +131,17 @@ public class Sphere {
     }
     public GLVektor getPos(){
         return vPos;
+    }
+    public double getSpeedX(){
+        return speedX;
+    }
+    public double getSpeedZ(){
+        return speedZ;
+    }
+    public void setSpeedX(double pSpeedX){
+        this.speedX = pSpeedX;
+    }
+    public void setSpeedZ(double pSpeedZ){
+        this.speedZ = pSpeedZ;
     }
 }
