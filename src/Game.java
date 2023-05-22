@@ -1,6 +1,7 @@
 import GLOOP.*;
 import UI.Menu;
 import UI.ScoreBoard;
+import UI.Timer;
 
 public class Game {
     private Catcher catcher;
@@ -12,6 +13,7 @@ public class Game {
     private GLHimmel sky;
     private ScoreBoard scoreboard;
     private Menu menu;
+    private Timer timer;
     private int score;
     private double menuStartingTimeMillis, runStartingTimeMillis;
     double FloorLength = 1000, FloorWidth = 1000;
@@ -19,6 +21,7 @@ public class Game {
     private boolean menuLoop = false, runGameLoop = true;
 
     public Game(){
+
         menu = new Menu();
        floor = new Floor(0, 0, FloorLength, FloorWidth);
        catcher = new Catcher(0, 0, floor, 1, 50);
@@ -36,8 +39,10 @@ public class Game {
               spheres[i] = new Sphere(spheres , i , catcher, floor, 0.5, 5);
          }
         scoreboard = new ScoreBoard(floor.getPos().x, 20, floor.getBackZBorder() - 20, 100, 100, "src/img/invisible.png", 50);
+        timer = new Timer(floor.getPos().x, 20, floor.getBackZBorder() - 100, 100, 100, "src/img/invisible.png", 50);
     }
     public void run(){
+        timer.start();
         while(true){
             runGameLoop = true;
             runStartingTimeMillis = System.currentTimeMillis();
@@ -51,8 +56,10 @@ public class Game {
                 }
                 if(maxScoreReached() || (keyboard.esc() && System.currentTimeMillis() - runStartingTimeMillis > 100)){
                     runGameLoop = false;
+                    timer.pause();
                     System.out.println("Game Over");
                 }
+                timer.update();
                 Sys.warte();
             }
             this.menuLoop();
@@ -93,18 +100,23 @@ public void resetScore(){
         menuStartingTimeMillis = System.currentTimeMillis();
         menu.show();
         while(menuLoop){
+            timer.update();
             if(keyboard.enter()){
                 menuLoop = false;
                 menu.hide();
                 this.resetGame();
+                timer.reset();
+                timer.start();
             }
             if(keyboard.backspace()){
                 menu.hide();
+                timer.kill();
                 Sys.beenden();
             }
             if(keyboard.esc() && System.currentTimeMillis() - menuStartingTimeMillis > 100){
                 menu.hide();
                 menuLoop = false;
+                timer.resume();
             }
             Sys.warte();
         }
