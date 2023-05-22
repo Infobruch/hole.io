@@ -13,9 +13,10 @@ public class Game {
     private ScoreBoard scoreboard;
     private Menu menu;
     private int score;
+    private double menuStartingTimeMillis, runStartingTimeMillis;
     double FloorLength = 1000, FloorWidth = 1000;
     private final char moveLeftKey = 'a', moveRightKey = 'd', moveUpKey = 'w', moveDownKey = 's';
-    private boolean menuLoop = false;
+    private boolean menuLoop = false, runGameLoop = true;
 
     public Game(){
         menu = new Menu();
@@ -38,7 +39,9 @@ public class Game {
     }
     public void run(){
         while(true){
-            while(!maxScoreReached() && !keyboard.esc()){
+            runGameLoop = true;
+            runStartingTimeMillis = System.currentTimeMillis();
+            while(runGameLoop){
                 this.checkForMovementInput();
                 for(int i = 0; i < spheres.length; i++){
                     spheres[i].move();
@@ -46,14 +49,16 @@ public class Game {
                     spheres[i].resetScore();
                     scoreboard.updateScoreBoard(score);
                 }
+                if(maxScoreReached() || (keyboard.esc() && System.currentTimeMillis() - runStartingTimeMillis > 100)){
+                    runGameLoop = false;
+                    System.out.println("Game Over");
+                }
                 Sys.warte();
             }
             this.menuLoop();
         }
     }
-    public void reset(){
 
-    }
     private void checkForMovementInput(){
         if(keyboard.istGedrueckt(moveLeftKey)){
             catcher.moveLeft();
@@ -85,6 +90,7 @@ public void resetScore(){
     }
     public void menuLoop(){
         menuLoop = true;
+        menuStartingTimeMillis = System.currentTimeMillis();
         menu.show();
         while(menuLoop){
             if(keyboard.enter()){
@@ -92,9 +98,13 @@ public void resetScore(){
                 menu.hide();
                 this.resetGame();
             }
-            if(!keyboard.esc()){
+            if(keyboard.backspace()){
                 menu.hide();
                 Sys.beenden();
+            }
+            if(keyboard.esc() && System.currentTimeMillis() - menuStartingTimeMillis > 100){
+                menu.hide();
+                menuLoop = false;
             }
             Sys.warte();
         }
