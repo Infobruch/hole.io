@@ -122,6 +122,18 @@ public class Sphere {
             score++;
         }
     }
+    public void reset(){
+        this.resetRandomPos();
+        this.resetScore();
+        do{
+            this.checkForCollisionWithSpheresAtSpawn();
+            if(this.checkForCollisionWithHole()){
+                sphereCollisionCounter++;
+                this.resetRandomPos();
+            }
+            System.out.println(sphereCollisionCounter);
+        }while(sphereCollisionCounter > 0);
+    }
     public void updateSpherePos(){
         sphere.setzePosition(vPos);
     }

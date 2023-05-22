@@ -1,8 +1,10 @@
+package UI;
+
 import GLOOP.*;
-public class UI {
+public class ScoreBoard{
     GLTafel scoreBoard;
     private int fontSize;
-    public void buildScoreBoard(double pX, double pY, double pZ, double pWidth, double pHeight, String pTexture, int pFontSize){
+    public ScoreBoard(double pX, double pY, double pZ, double pWidth, double pHeight, String pTexture, int pFontSize){
         fontSize = pFontSize;
         scoreBoard = new GLTafel(pX, pY, pZ, pWidth, pHeight, pTexture);
         scoreBoard.setzeAutodrehung(true);
