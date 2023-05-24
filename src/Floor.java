@@ -8,7 +8,9 @@ public class Floor {
         width = pWidth;
         vPos = new GLVektor(pX, -0.5, pZ);
         floor = new GLQuader(vPos, width, 0.5, length);
-        floor.setzeFarbe( 1, 1, 1);
+        floor.setzeMaterial(GLMaterial.GLAS);
+        //floor.setzeGlanz(1, 1, 1, 10);
+        //floor.setzeFarbe( 1, 1, 1);
     }
     public void reset(){
 

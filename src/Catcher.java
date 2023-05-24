@@ -13,7 +13,9 @@ public class Catcher {
         vResetPos = new GLVektor(pX, 0, pZ);
         catcher = new GLZylinder(vPos, radius, 20);
         catcher.drehe(90, 0, 0);
-        catcher.setzeFarbe(0, 1, 0);
+        catcher.setzeMaterial(GLMaterial.GRÜNGLAS);
+        catcher.setzeGlanz(0, 1, 0, 10);
+        //catcher.setzeFarbe(0, 1, 0);
     }
 
     public void moveRight(){
